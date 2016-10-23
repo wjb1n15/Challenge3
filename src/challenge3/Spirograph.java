@@ -4,23 +4,31 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Spirograph {
-	protected int fixedRad = 100;
-	protected int movRad = 50;
-	protected int offset = 20;
+	protected int fixedRad = 300;
+	protected int movRad = 103;
+	protected int offset = 0;
 	protected Color colour = Color.black;
 	
 	public void paint(Graphics g)
 	{
 		g.setColor(colour);
 		
-		int firstX = fixedRad + offset;
+		int firstX = fixedRad - offset;
 		int firstY = 0;
 		double lastX = firstX, lastY = firstY;
 		int sumR = fixedRad - movRad;
 		double ratio = (double)sumR / (double)movRad;
-		int sumO = movRad + offset;
+		int sumO = movRad - offset;
+		double stop = 2 * 3.14159;
+//		int increment;
+//		int prevIncrement = fixedRad;
+//		for(increment = movRad; prevIncrement % increment > 0; prevIncrement = increment) {
+//			stop *= (double)prevIncrement / (double)increment;
+//			increment = prevIncrement % increment;
+//		}
+//		stop *= fixedRad / increment;
 		
-		for(double t = 0.0; (((int)lastX != firstX || (int)lastY != firstY) || t < 0.5) && t < 1000.0; t += 0.01) {
+		for(double t = 0.0;  t < 3000; t += 0.1) {
 			double x = (double)sumR * Math.cos(t) + sumO * Math.cos(ratio * t);
 			double y = (double)sumR * Math.sin(t) - sumO * Math.sin(ratio * t);
 			
@@ -57,7 +65,10 @@ public class Spirograph {
 	
 	public void setMovRad(int movRad)
 	{
-		this.movRad = movRad;
+		if(movRad > 0)
+			this.movRad = movRad;
+		else
+			this.movRad = 1;
 	}
 	
 	public void setOffset(int offset)
